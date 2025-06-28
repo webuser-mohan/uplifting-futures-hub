@@ -8,6 +8,7 @@ import { useToast } from '@/hooks/use-toast';
 import StudentForm from '@/components/students/StudentForm';
 import StudentTable from '@/components/students/StudentTable';
 import Hedlogo from '@/images/logo.jpg';
+import axios from 'axios';
 
 interface Student {
   id: number;
@@ -187,23 +188,62 @@ const Dashboard = () => {
 
   // ... keep existing code (useEffect, handleLogout, handleFormSubmit, handleEdit, handleDelete, handleCancel functions)
 
-  useEffect(() => {
-    const isAuthenticated = localStorage.getItem('isAuthenticated');
-    if (!isAuthenticated) {
-      navigate('/login');
-    }
-  }, [navigate]);
+  // useEffect(() => {
+  //   const isAuthenticated = localStorage.getItem('isAuthenticated');
+  //   if (!isAuthenticated) {
+  //     navigate('/login');
+  //   }
+  // }, [navigate]);
 
   const handleLogout = () => {
-    localStorage.removeItem('isAuthenticated');
+    // localStorage.removeItem('isAuthenticated');
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
     toast({
       title: "Logged out",
       description: "You have been logged out successfully.",
     });
-    navigate('/');
+    // navigate('/');
+    navigate('/login');
   };
 
-  const handleFormSubmit = (formData: Omit<Student, 'id'>) => {
+  // const handleFormSubmit = (formData: Omit<Student, 'id'>) => {
+  //   if (!formData.fullName || !formData.dateOfBirth || !formData.parentGuardianName) {
+  //     toast({
+  //       title: "Error",
+  //       description: "Please fill in all required fields.",
+  //       variant: "destructive"
+  //     });
+  //     return;
+  //   }
+
+  //   if (editingStudent) {
+  //     setStudents(prev => prev.map(student => 
+  //       student.id === editingStudent.id 
+  //         ? { ...student, ...formData }
+  //         : student
+  //     ));
+  //     toast({
+  //       title: "Success",
+  //       description: "Student updated successfully!",
+  //     });
+  //     setEditingStudent(null);
+  //   } else {
+  //     const newStudent: Student = {
+  //       id: Date.now(),
+  //       ...formData
+  //     };
+  //     setStudents(prev => [...prev, newStudent]);
+  //     toast({
+  //       title: "Success",
+  //       description: "Student added successfully!",
+  //     });
+  //   }
+
+  //   setShowAddForm(false);
+  // };
+
+  const handleFormSubmit = async (formData: Omit<Student, 'id'>) => {
     if (!formData.fullName || !formData.dateOfBirth || !formData.parentGuardianName) {
       toast({
         title: "Error",
@@ -213,31 +253,43 @@ const Dashboard = () => {
       return;
     }
 
-    if (editingStudent) {
-      setStudents(prev => prev.map(student => 
-        student.id === editingStudent.id 
-          ? { ...student, ...formData }
-          : student
-      ));
-      toast({
-        title: "Success",
-        description: "Student updated successfully!",
+    try {
+      const token = localStorage.getItem('access_token');
+      if (!token) {
+        toast({
+          title: "Unauthorized",
+          description: "Please log in again.",
+          variant: "destructive"
+        });
+        return;
+      }
+
+      const response = await axios.post('http://127.0.0.1:8000/api/students/', formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
       });
-      setEditingStudent(null);
-    } else {
-      const newStudent: Student = {
-        id: Date.now(),
-        ...formData
-      };
-      setStudents(prev => [...prev, newStudent]);
+
+      // If successful, update the student list
+      setStudents(prev => [...prev, response.data]);
+
       toast({
         title: "Success",
         description: "Student added successfully!",
       });
-    }
 
-    setShowAddForm(false);
+      setShowAddForm(false);
+    } catch (error: any) {
+      console.error(error);
+      toast({
+        title: "Error",
+        description: error.response?.data?.detail || "Failed to add student.",
+        variant: "destructive"
+      });
+    }
   };
+
 
   const handleEdit = (student: Student) => {
     setEditingStudent(student);

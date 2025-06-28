@@ -23,21 +23,41 @@ const Login = () => {
     setCredentials(prev => ({ ...prev, [field]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // Simple master login validation
-    if (credentials.username === 'master' && credentials.password === 'admin123') {
-      localStorage.setItem('isAuthenticated', 'true');
-      toast({
-        title: "Success",
-        description: "Login successful! Welcome Master.",
+
+    try {
+      const response = await fetch('http://127.0.0.1:8000/auth/jwt/create/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(credentials)
       });
-      navigate('/dashboard');
-    } else {
+      
+      if (response.ok) {
+        const data = await response.json();
+        localStorage.setItem('access_token', data.access);
+        localStorage.setItem('refresh_token', data.refresh);
+
+        toast({
+          title: "Success",
+          description: "Login successful!",
+        });
+
+        navigate('/dashboard');
+      } else {
+        const err = await response.json();
+        toast({
+          title: "Login failed",
+          description: err.detail || "Invalid credentials",
+          variant: "destructive"
+        });
+      }
+    } catch (error) {
       toast({
         title: "Error",
-        description: "Invalid credentials. Please try again.",
+        description: "Something went wrong. Check backend connection.",
         variant: "destructive"
       });
     }
