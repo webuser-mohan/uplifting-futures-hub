@@ -7,6 +7,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
+import Hedlogo from '@/images/logo.jpg';
+import Hedname from '@/images/Hed_name.png';
+
 
 const Login = () => {
   const { toast } = useToast();
@@ -46,9 +49,18 @@ const Login = () => {
         <Card className="max-w-md mx-auto">
           <CardHeader className="text-center">
             <div className="flex justify-center mb-4">
-              <GraduationCap className="h-12 w-12 text-blue-600" />
+              <img
+                src={Hedlogo}
+                alt="Logo"
+                className="h-12 w-auto"
+              />
+              <img
+                src={Hedname}
+                alt="Mukkulathor Free Educational & Employment Trust"
+                className="h-12 w-auto"
+              />
             </div>
-            <CardTitle className="text-2xl font-bold text-gray-800">Master Login</CardTitle>
+            <CardTitle className="text-2xl font-bold text-gray-800">Login</CardTitle>
             <CardDescription>
               Access the student management dashboard
             </CardDescription>
@@ -82,11 +94,11 @@ const Login = () => {
                 Login
               </Button>
             </form>
-            <div className="mt-6 text-center">
+            {/* <div className="mt-6 text-center">
               <Button asChild variant="outline">
                 <Link to="/">Back to Home</Link>
               </Button>
-            </div>
+            </div> */}
           </CardContent>
         </Card>
       </div>

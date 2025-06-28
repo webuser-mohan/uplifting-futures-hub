@@ -4,6 +4,11 @@ import { Link } from 'react-router-dom';
 import { GraduationCap, Users, Heart, Phone, Mail, MapPin, Award, BookOpen, Briefcase, LogIn } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import Hedlogo from '@/images/logo.jpg';
+import Hedname from '@/images/Hed_name.png';
+
+
+
 
 const Index = () => {
   return (
@@ -13,8 +18,17 @@ const Index = () => {
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
-              <GraduationCap className="h-8 w-8 text-blue-600" />
-              <h1 className="text-2xl font-bold text-gray-800">Bright Future Trust</h1>
+              <img
+                src={Hedlogo}
+                alt="Logo"
+                className="h-12 w-auto"
+              />
+              {/* <h1 className="text-2xl font-bold text-gray-800">Mukkulathor Free Educational & Employment Trust</h1> */}
+              <img
+                src={Hedname}
+                alt="Mukkulathor Free Educational & Employment Trust"
+                className="h-12 w-auto"
+              />
             </div>
             <nav className="hidden md:flex items-center space-x-6">
               <Link to="/gallery" className="text-gray-600 hover:text-blue-600 transition-colors">Gallery</Link>
@@ -23,7 +37,7 @@ const Index = () => {
               <Button asChild variant="outline">
                 <Link to="/login" className="flex items-center space-x-2">
                   <LogIn className="h-4 w-4" />
-                  <span>Master Login</span>
+                  <span>Login</span>
                 </Link>
               </Button>
             </nav>
@@ -175,7 +189,7 @@ const Index = () => {
             <div>
               <div className="flex items-center space-x-2 mb-4">
                 <GraduationCap className="h-6 w-6" />
-                <h3 className="text-lg font-semibold">Bright Future Trust</h3>
+                <h3 className="text-lg font-semibold">Mukkulathor Free Educational & Employment Trust</h3>
               </div>
               <p className="text-gray-300 text-sm">
                 Empowering dreams through education and creating opportunities for a brighter future.
@@ -214,7 +228,7 @@ const Index = () => {
             </div>
           </div>
           <div className="border-t border-gray-700 mt-8 pt-8 text-center text-gray-300 text-sm">
-            <p>&copy; 2024 Bright Future Trust. All rights reserved.</p>
+            <p>&copy; 2024 Mukkulathor Free Educational & Employment Trust. All rights reserved.</p>
           </div>
         </div>
       </footer>
