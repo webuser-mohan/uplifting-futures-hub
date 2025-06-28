@@ -6,6 +6,9 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import Hedlogo from '@/images/logo.jpg';
 import Hedname from '@/images/Hed_name.png';
+import Mhed from '@/images/Merged_logo.png';
+
+
 
 
 
@@ -32,7 +35,7 @@ const Index = () => {
             </div>
             <nav className="hidden md:flex items-center space-x-6">
               <Link to="/gallery" className="text-gray-600 hover:text-blue-600 transition-colors">Gallery</Link>
-              <Link to="/funding" className="text-gray-600 hover:text-blue-600 transition-colors">Funding</Link>
+              <Link to="/funding" className="text-gray-600 hover:text-blue-600 transition-colors">Donate</Link>
               <Link to="/contact" className="text-gray-600 hover:text-blue-600 transition-colors">Contact</Link>
               <Button asChild variant="outline">
                 <Link to="/login" className="flex items-center space-x-2">
@@ -158,29 +161,7 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="py-16 bg-blue-600 text-white">
-        <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-4 gap-8 text-center">
-            <div>
-              <div className="text-4xl font-bold mb-2">500+</div>
-              <div className="text-blue-100">Students Supported</div>
-            </div>
-            <div>
-              <div className="text-4xl font-bold mb-2">95%</div>
-              <div className="text-blue-100">Success Rate</div>
-            </div>
-            <div>
-              <div className="text-4xl font-bold mb-2">50+</div>
-              <div className="text-blue-100">Partner Companies</div>
-            </div>
-            <div>
-              <div className="text-4xl font-bold mb-2">10+</div>
-              <div className="text-blue-100">Years of Service</div>
-            </div>
-          </div>
-        </div>
-      </section>
+
 
       {/* Footer */}
       <footer className="bg-gray-800 text-white py-12">
@@ -188,8 +169,12 @@ const Index = () => {
           <div className="grid md:grid-cols-4 gap-8">
             <div>
               <div className="flex items-center space-x-2 mb-4">
-                <GraduationCap className="h-6 w-6" />
-                <h3 className="text-lg font-semibold">Mukkulathor Free Educational & Employment Trust</h3>
+                <img
+                  src={Mhed}
+                  alt="Logo"
+                  className="h-12 w-auto"
+                />
+                
               </div>
               <p className="text-gray-300 text-sm">
                 Empowering dreams through education and creating opportunities for a brighter future.
@@ -208,24 +193,19 @@ const Index = () => {
               <div className="space-y-2 text-gray-300 text-sm">
                 <div className="flex items-center space-x-2">
                   <Phone className="h-4 w-4" />
-                  <span>+91 98765 43210</span>
+                  <span>+91 98430 58867</span>
                 </div>
                 <div className="flex items-center space-x-2">
                   <Mail className="h-4 w-4" />
-                  <span>info@brightfuturetrust.org</span>
+                  <span>example_mail.com</span>
                 </div>
                 <div className="flex items-center space-x-2">
                   <MapPin className="h-4 w-4" />
-                  <span>Mumbai, Maharashtra, India</span>
+                  <span>Madurai, Tamilnadu, India</span>
                 </div>
               </div>
             </div>
-            <div>
-              <h4 className="text-lg font-semibold mb-4">Follow Us</h4>
-              <p className="text-gray-300 text-sm">
-                Stay connected with our latest updates and success stories.
-              </p>
-            </div>
+            
           </div>
           <div className="border-t border-gray-700 mt-8 pt-8 text-center text-gray-300 text-sm">
             <p>&copy; 2024 Mukkulathor Free Educational & Employment Trust. All rights reserved.</p>

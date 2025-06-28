@@ -271,9 +271,10 @@ const StudentForm: React.FC<StudentFormProps> = ({ student, onSubmit, onCancel, 
                 <Input
                   id="aadharNumber"
                   type="text"
-                  placeholder="Enter Aadhar number (optional)"
+                  placeholder="Enter Aadhar number"
                   value={formData.aadharNumber}
                   onChange={(e) => handleInputChange('aadharNumber', e.target.value)}
+                  required
                 />
               </div>
             </div>
@@ -614,7 +615,7 @@ const StudentForm: React.FC<StudentFormProps> = ({ student, onSubmit, onCancel, 
                 <Input
                   id="targetExams"
                   type="text"
-                  placeholder="e.g., NEET, JEE, UPSC, SSC, Banking"
+                  placeholder="e.g., Railways, Forest, Group1, Group2"
                   value={formData.targetExams}
                   onChange={(e) => handleInputChange('targetExams', e.target.value)}
                 />

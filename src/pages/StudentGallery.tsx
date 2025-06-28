@@ -5,6 +5,8 @@ import { GraduationCap, ArrowLeft, Filter } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import Hedlogo from '@/images/logo.jpg';
+import Hedname from '@/images/Hed_name.png';
 
 const StudentGallery = () => {
   const [filterYear, setFilterYear] = useState('all');
@@ -98,8 +100,16 @@ const StudentGallery = () => {
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
-              <GraduationCap className="h-8 w-8 text-blue-600" />
-              <h1 className="text-2xl font-bold text-gray-800">Mukkulathor Free Educational & Employment Trust</h1>
+              <img
+                src={Hedlogo}
+                alt="Logo"
+                className="h-12 w-auto"
+              />
+              <img
+                src={Hedname}
+                alt="Mukkulathor Free Educational & Employment Trust"
+                className="h-12 w-auto"
+              />
             </div>
             <Button asChild variant="outline">
               <Link to="/" className="flex items-center space-x-2">
@@ -214,33 +224,8 @@ const StudentGallery = () => {
           </div>
         )}
 
-        {/* Stats Section */}
-        <div className="bg-white rounded-lg shadow-md p-8 mt-12">
-          <h3 className="text-2xl font-bold text-center text-gray-800 mb-6">Our Impact</h3>
-          <div className="grid md:grid-cols-3 gap-6 text-center">
-            <div>
-              <div className="text-3xl font-bold text-blue-600 mb-2">{students.length}+</div>
-              <div className="text-gray-600">Students Showcased</div>
-            </div>
-            <div>
-              <div className="text-3xl font-bold text-green-600 mb-2">95%</div>
-              <div className="text-gray-600">Placement Rate</div>
-            </div>
-            <div>
-              <div className="text-3xl font-bold text-purple-600 mb-2">25+</div>
-              <div className="text-gray-600">Different Courses</div>
-            </div>
-          </div>
-        </div>
 
-        {/* Call to Action */}
-        <div className="text-center mt-12">
-          <h3 className="text-2xl font-bold text-gray-800 mb-4">Want to Join Them?</h3>
-          <p className="text-gray-600 mb-6">Apply for our education support program and transform your future.</p>
-          <Button asChild size="lg" className="bg-blue-600 hover:bg-blue-700">
-            <Link to="/register">Apply Now</Link>
-          </Button>
-        </div>
+
       </div>
     </div>
   );
