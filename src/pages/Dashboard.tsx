@@ -75,116 +75,93 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const [showAddForm, setShowAddForm] = useState(false);
   const [editingStudent, setEditingStudent] = useState<Student | null>(null);
-  const [students, setStudents] = useState<Student[]>([
-    {
-      id: 1,
-      fullName: "Priya Sharma",
-      dateOfBirth: "2000-05-15",
-      gender: "female",
-      parentGuardianName: "Raj Sharma",
-      studentContact: "9999999999",
-      parentContact: "9999999999",
-      email: "priya@example.com",
-      address: "123 Main Street, Mumbai, Maharashtra - 400001",
-      aadharNumber: "1234-5678-9012",
-      aadharPhoto: "",
-      schoolCollegeName: "Mumbai Engineering College",
-      classGrade: "3rd Year B.Tech",
-      boardUniversity: "university",
-      academicRecords: "85% in 12th, 8.5 CGPA in Engineering",
-      mediumOfInstruction: "english",
+  const [students, setStudents] = useState<Student[]>([]);
+  const [editStudent, setEditStudent] = useState<Student | null>(null);
+
+  const initialFormData = {
+    fullName: '',
+    dateOfBirth: '',
+    gender: '',
+    parentGuardianName: '',
+    studentContact: '',
+    parentContact: '',
+    email: '',
+    address: '',
+    aadharNumber: '',
+    aadharPhoto: '',
+    schoolCollegeName: '',
+    classGrade: '',
+    boardUniversity: '',
+    academicRecords: '',
+    mediumOfInstruction: '',
+    hasSchoolSSLC: false,
+    sslcBoard: '',
+    sslcYear: '',
+    sslcPercentage: '',
+    sslcSchool: '',
+    hasHSC: false,
+    hscBoard: '',
+    hscYear: '',
+    hscPercentage: '',
+    hscCollege: '',
+    hscStream: '',
+    hasUG: false,
+    ugCourse: '',
+    ugCollege: '',
+    ugYear: '',
+    ugPercentage: '',
+    ugSpecialization: '',
+    hasPG: false,
+    pgCourse: '',
+    pgCollege: '',
+    pgYear: '',
+    pgPercentage: '',
+    pgSpecialization: '',
+    targetExams: '',
+    preferredSubjects: '',
+    preparationLevel: '',
+    coachingPackage: '',
+    startDate: '',
+    endDate: '',
+    photo: ''
+  };
+
+  const [formData, setFormData] = useState<Omit<Student, 'id'>>(initialFormData);
+
+  useEffect(() => {
+    const fetchStudents = async () => {
+      const token = localStorage.getItem('access_token');
       
-      // Academic Sections
-      hasSchoolSSLC: true,
-      sslcBoard: "state-board",
-      sslcYear: "2018",
-      sslcPercentage: "95%",
-      sslcSchool: "Government High School",
-      
-      hasHSC: true,
-      hscBoard: "state-board",
-      hscYear: "2020",
-      hscPercentage: "88%",
-      hscCollege: "Science College",
-      hscStream: "science",
-      
-      hasUG: true,
-      ugCourse: "B.Tech",
-      ugCollege: "Mumbai Engineering College",
-      ugYear: "2024",
-      ugPercentage: "8.5 CGPA",
-      ugSpecialization: "Computer Science",
-      
-      hasPG: false,
-      pgCourse: "",
-      pgCollege: "",
-      pgYear: "",
-      pgPercentage: "",
-      pgSpecialization: "",
-      
-      targetExams: "GATE, Campus Placements",
-      preferredSubjects: "Computer Science, Mathematics",
-      preparationLevel: "advanced",
-      coachingPackage: "GATE Preparation Batch",
-      startDate: "2024-01-15",
-      endDate: "2024-12-15",
-      photo: "https://images.unsplash.com/photo-1494790108755-2616c05e8d08?w=300&h=300&fit=crop&crop=face"
-    },
-    {
-      id: 2,
-      fullName: "Rahul Kumar",
-      dateOfBirth: "1999-08-22",
-      gender: "male",
-      parentGuardianName: "Suresh Kumar",
-      studentContact: "9876543212",
-      parentContact: "9876543213",
-      email: "rahul@example.com",
-      address: "456 Park Avenue, Delhi, India - 110001",
-      aadharNumber: "9876-5432-1098",
-      aadharPhoto: "",
-      schoolCollegeName: "Delhi Public School",
-      classGrade: "12th Grade",
-      boardUniversity: "cbse",
-      academicRecords: "92% in 11th grade",
-      mediumOfInstruction: "english",
-      
-      // Academic Sections
-      hasSchoolSSLC: true,
-      sslcBoard: "cbse",
-      sslcYear: "2016",
-      sslcPercentage: "92%",
-      sslcSchool: "Delhi Public School",
-      
-      hasHSC: true,
-      hscBoard: "cbse",
-      hscYear: "2018",
-      hscPercentage: "89%",
-      hscCollege: "Delhi Public School",
-      hscStream: "science",
-      
-      hasUG: false,
-      ugCourse: "",
-      ugCollege: "",
-      ugYear: "",
-      ugPercentage: "",
-      ugSpecialization: "",
-      
-      hasPG: false,
-      pgCourse: "",
-      pgCollege: "",
-      pgYear: "",
-      pgPercentage: "",
-      pgSpecialization: "",
-      
-      targetExams: "JEE Main, JEE Advanced",
-      preferredSubjects: "Physics, Chemistry, Mathematics",
-      preparationLevel: "intermediate",
-      coachingPackage: "JEE Two Year Program",
-      startDate: "2024-02-01",
-      endDate: "2025-05-31",
-      photo: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop&crop=face"
-    }
-  ]);
+      if (!token) {
+        toast({
+          title: "Unauthorized",
+          description: "Please log in again.",
+          variant: "destructive"
+        });
+        navigate('/login');
+        return;
+      }
+
+      try {
+        const response = await axios.get('http://127.0.0.1:8000/api/students/', {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        const formatted = response.data.map((student: any) => toCamelCase(student));
+        setStudents(formatted);
+      } catch (error) {
+        console.error("Error fetching students:", error);
+        toast({
+          title: "Error",
+          description: "Failed to fetch students from the database.",
+          variant: "destructive"
+        });
+      }
+    };
+
+    fetchStudents();
+  }, [toast, navigate]);
 
   // ... keep existing code (useEffect, handleLogout, handleFormSubmit, handleEdit, handleDelete, handleCancel functions)
 
@@ -194,6 +171,23 @@ const Dashboard = () => {
   //     navigate('/login');
   //   }
   // }, [navigate]);
+  const toSnakeCase = (obj: any) => {
+    const result: any = {};
+    for (const key in obj) {
+      const snakeKey = key.replace(/([A-Z])/g, "_$1").toLowerCase();
+      result[snakeKey] = obj[key];
+    }
+    return result;
+  };
+
+  const toCamelCase = (obj: any) => {
+    const result: any = {};
+    for (const key in obj) {
+      const camelKey = key.replace(/_([a-z])/g, (_, g) => g.toUpperCase());
+      result[camelKey] = obj[key];
+    }
+    return result;
+  };
 
   const handleLogout = () => {
     // localStorage.removeItem('isAuthenticated');
@@ -207,92 +201,89 @@ const Dashboard = () => {
     navigate('/login');
   };
 
-  // const handleFormSubmit = (formData: Omit<Student, 'id'>) => {
-  //   if (!formData.fullName || !formData.dateOfBirth || !formData.parentGuardianName) {
-  //     toast({
-  //       title: "Error",
-  //       description: "Please fill in all required fields.",
-  //       variant: "destructive"
-  //     });
-  //     return;
-  //   }
-
-  //   if (editingStudent) {
-  //     setStudents(prev => prev.map(student => 
-  //       student.id === editingStudent.id 
-  //         ? { ...student, ...formData }
-  //         : student
-  //     ));
-  //     toast({
-  //       title: "Success",
-  //       description: "Student updated successfully!",
-  //     });
-  //     setEditingStudent(null);
-  //   } else {
-  //     const newStudent: Student = {
-  //       id: Date.now(),
-  //       ...formData
-  //     };
-  //     setStudents(prev => [...prev, newStudent]);
-  //     toast({
-  //       title: "Success",
-  //       description: "Student added successfully!",
-  //     });
-  //   }
-
-  //   setShowAddForm(false);
-  // };
-
   const handleFormSubmit = async (formData: Omit<Student, 'id'>) => {
-    if (!formData.fullName || !formData.dateOfBirth || !formData.parentGuardianName) {
+    console.log("Submitting to backend:", toSnakeCase(formData));
+    const token = localStorage.getItem('access_token');
+    if (!token) {
       toast({
-        title: "Error",
-        description: "Please fill in all required fields.",
+        title: "Unauthorized",
+        description: "Please log in again.",
         variant: "destructive"
       });
       return;
     }
 
     try {
-      const token = localStorage.getItem('access_token');
-      if (!token) {
-        toast({
-          title: "Unauthorized",
-          description: "Please log in again.",
-          variant: "destructive"
+      if (editStudent) {
+        // Update (PUT) request
+        const response = await axios.put(`http://127.0.0.1:8000/api/students/${editStudent.id}/`, formData, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
         });
-        return;
+
+        // Update local state
+        setStudents(prev =>
+          prev.map(student =>
+            student.id === editStudent.id ? response.data : student
+          )
+        );
+
+        toast({
+          title: "Updated",
+          description: "Student record updated successfully!",
+        });
+
+        setFormData(initialFormData);
+        setEditingStudent(null);
+        setShowAddForm(false);
+
+      } else {
+        // Create (POST) request
+        const payload = toSnakeCase(formData);
+        const response = await axios.post('http://127.0.0.1:8000/api/students/', payload, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        });
+
+        setStudents(prev => [...prev, response.data]);
+
+        toast({
+          title: "Added",
+          description: "Student added successfully!",
+        });
+
+        setFormData(initialFormData);
+        setEditingStudent(null);
+        setShowAddForm(false);
       }
 
-      const response = await axios.post('http://127.0.0.1:8000/api/students/', formData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        }
-      });
-
-      // If successful, update the student list
-      setStudents(prev => [...prev, response.data]);
-
-      toast({
-        title: "Success",
-        description: "Student added successfully!",
-      });
-
       setShowAddForm(false);
+      setEditStudent(null);
     } catch (error: any) {
       console.error(error);
       toast({
         title: "Error",
-        description: error.response?.data?.detail || "Failed to add student.",
+        description: JSON.stringify(error.response?.data) || "Failed to save student.",
         variant: "destructive"
       });
     }
   };
 
 
+
+  // const handleEdit = (student: Student) => {
+  //   setEditingStudent(student);
+  //   setFormData(student);
+  //   setShowAddForm(true);
+  // };
+  
   const handleEdit = (student: Student) => {
-    setEditingStudent(student);
+    setEditStudent(student);
+    setFormData({ ...student });  // This fills the form with current values
     setShowAddForm(true);
   };
 
@@ -344,13 +335,14 @@ const Dashboard = () => {
         {showAddForm ? (
           <div className="mb-8">
             <StudentForm
-              student={editingStudent || undefined}
+              formData={formData}
+              setFormData={setFormData}
               onSubmit={handleFormSubmit}
               onCancel={handleCancel}
-              isEditing={!!editingStudent}
+              isEditing={!!editStudent}
             />
           </div>
-        ) : (
+        ) :  (
           // Students Table
           <Card>
             <CardHeader>

@@ -70,71 +70,15 @@ interface Student {
 }
 
 interface StudentFormProps {
-  student?: Student;
+  formData: Omit<Student, 'id'>;
+  setFormData: React.Dispatch<React.SetStateAction<Omit<Student, 'id'>>>;
   onSubmit: (formData: Omit<Student, 'id'>) => void;
   onCancel: () => void;
   isEditing: boolean;
 }
 
-const StudentForm: React.FC<StudentFormProps> = ({ student, onSubmit, onCancel, isEditing }) => {
-  const [formData, setFormData] = useState({
-    // Personal Information
-    fullName: student?.fullName || '',
-    dateOfBirth: student?.dateOfBirth || '',
-    gender: student?.gender || '',
-    parentGuardianName: student?.parentGuardianName || '',
-    studentContact: student?.studentContact || '',
-    parentContact: student?.parentContact || '',
-    email: student?.email || '',
-    address: student?.address || '',
-    aadharNumber: student?.aadharNumber || '',
-    aadharPhoto: student?.aadharPhoto || '',
-    
-    // Academic Details (keeping for backward compatibility)
-    schoolCollegeName: student?.schoolCollegeName || '',
-    classGrade: student?.classGrade || '',
-    boardUniversity: student?.boardUniversity || '',
-    academicRecords: student?.academicRecords || '',
-    mediumOfInstruction: student?.mediumOfInstruction || '',
-    
-    // Academic Sections
-    hasSchoolSSLC: student?.hasSchoolSSLC || false,
-    sslcBoard: student?.sslcBoard || '',
-    sslcYear: student?.sslcYear || '',
-    sslcPercentage: student?.sslcPercentage || '',
-    sslcSchool: student?.sslcSchool || '',
-    
-    hasHSC: student?.hasHSC || false,
-    hscBoard: student?.hscBoard || '',
-    hscYear: student?.hscYear || '',
-    hscPercentage: student?.hscPercentage || '',
-    hscCollege: student?.hscCollege || '',
-    hscStream: student?.hscStream || '',
-    
-    hasUG: student?.hasUG || false,
-    ugCourse: student?.ugCourse || '',
-    ugCollege: student?.ugCollege || '',
-    ugYear: student?.ugYear || '',
-    ugPercentage: student?.ugPercentage || '',
-    ugSpecialization: student?.ugSpecialization || '',
-    
-    hasPG: student?.hasPG || false,
-    pgCourse: student?.pgCourse || '',
-    pgCollege: student?.pgCollege || '',
-    pgYear: student?.pgYear || '',
-    pgPercentage: student?.pgPercentage || '',
-    pgSpecialization: student?.pgSpecialization || '',
-    
-    // Competitive Exam Focus
-    targetExams: student?.targetExams || '',
-    preferredSubjects: student?.preferredSubjects || '',
-    preparationLevel: student?.preparationLevel || '',
-    coachingPackage: student?.coachingPackage || '',
-    startDate: student?.startDate || '',
-    endDate: student?.endDate || '',
-    
-    photo: student?.photo || ''
-  });
+const StudentForm: React.FC<StudentFormProps> = ({ formData, setFormData, onSubmit, onCancel, isEditing})  => {
+
 
   const handleInputChange = (field: string, value: string | boolean) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -328,7 +272,7 @@ const StudentForm: React.FC<StudentFormProps> = ({ student, onSubmit, onCancel, 
                 <Checkbox
                   id="hasSchoolSSLC"
                   checked={formData.hasSchoolSSLC}
-                  onCheckedChange={(checked) => handleInputChange('hasSchoolSSLC', checked)}
+                  onCheckedChange={(checked) => handleInputChange('hasSchoolSSLC', !!checked)}
                 />
                 <Label htmlFor="hasSchoolSSLC" className="text-base font-medium">School/SSLC (10th Grade)</Label>
               </div>
@@ -389,7 +333,7 @@ const StudentForm: React.FC<StudentFormProps> = ({ student, onSubmit, onCancel, 
                 <Checkbox
                   id="hasHSC"
                   checked={formData.hasHSC}
-                  onCheckedChange={(checked) => handleInputChange('hasHSC', checked)}
+                  onCheckedChange={(checked) => handleInputChange('hasHSC', !!checked)}
                 />
                 <Label htmlFor="hasHSC" className="text-base font-medium">HSC/12th Grade</Label>
               </div>
@@ -463,7 +407,7 @@ const StudentForm: React.FC<StudentFormProps> = ({ student, onSubmit, onCancel, 
                 <Checkbox
                   id="hasUG"
                   checked={formData.hasUG}
-                  onCheckedChange={(checked) => handleInputChange('hasUG', checked)}
+                  onCheckedChange={(checked) => handleInputChange('hasUG', !!checked)}
                 />
                 <Label htmlFor="hasUG" className="text-base font-medium">Under Graduate (UG)</Label>
               </div>
@@ -530,7 +474,7 @@ const StudentForm: React.FC<StudentFormProps> = ({ student, onSubmit, onCancel, 
                 <Checkbox
                   id="hasPG"
                   checked={formData.hasPG}
-                  onCheckedChange={(checked) => handleInputChange('hasPG', checked)}
+                  onCheckedChange={(checked) => handleInputChange('hasPG', !!checked)}
                 />
                 <Label htmlFor="hasPG" className="text-base font-medium">Post Graduate (PG)</Label>
               </div>
