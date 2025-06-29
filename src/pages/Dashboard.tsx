@@ -214,19 +214,22 @@ const Dashboard = () => {
     }
 
     try {
+      const payload = toSnakeCase(formData);
+
       if (editStudent) {
         // Update (PUT) request
-        const response = await axios.put(`http://127.0.0.1:8000/api/students/${editStudent.id}/`, formData, {
+        const response = await axios.put(`http://127.0.0.1:8000/api/students/${editStudent.id}/`, payload, {
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json'
           }
         });
 
+        const updatedStudent = toCamelCase(response.data);
         // Update local state
         setStudents(prev =>
           prev.map(student =>
-            student.id === editStudent.id ? response.data : student
+            student.id === editStudent.id ? updatedStudent : student
           )
         );
 
@@ -241,7 +244,6 @@ const Dashboard = () => {
 
       } else {
         // Create (POST) request
-        const payload = toSnakeCase(formData);
         const response = await axios.post('http://127.0.0.1:8000/api/students/', payload, {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -282,8 +284,12 @@ const Dashboard = () => {
   // };
   
   const handleEdit = (student: Student) => {
-    setEditStudent(student);
-    setFormData({ ...student });  // This fills the form with current values
+    // setEditStudent(student);
+    // setFormData({ ...student });  // This fills the form with current values
+    // setShowAddForm(true);
+    const camelCaseStudent = toCamelCase(student);
+    setEditStudent(camelCaseStudent);
+    setFormData(camelCaseStudent);  // ✅ prefill form including booleans
     setShowAddForm(true);
   };
 
@@ -298,6 +304,7 @@ const Dashboard = () => {
   const handleCancel = () => {
     setShowAddForm(false);
     setEditingStudent(null);
+    setFormData(initialFormData);
   };
 
   return (

@@ -88,8 +88,8 @@ const StudentForm: React.FC<StudentFormProps> = ({ formData, setFormData, onSubm
     const file = e.target.files?.[0];
     if (file) {
       const reader = new FileReader();
-      reader.onload = (e) => {
-        setFormData(prev => ({ ...prev, photo: e.target?.result as string }));
+      reader.onload = (event) => {
+        setFormData(prev => ({ ...prev, photo: event.target?.result as string }));
       };
       reader.readAsDataURL(file);
     }
@@ -99,12 +99,13 @@ const StudentForm: React.FC<StudentFormProps> = ({ formData, setFormData, onSubm
     const file = e.target.files?.[0];
     if (file) {
       const reader = new FileReader();
-      reader.onload = (e) => {
-        setFormData(prev => ({ ...prev, aadharPhoto: e.target?.result as string }));
+      reader.onload = (event) => {
+        setFormData(prev => ({ ...prev, aadharPhoto: event.target?.result as string }));
       };
       reader.readAsDataURL(file);
     }
   };
+
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -272,7 +273,8 @@ const StudentForm: React.FC<StudentFormProps> = ({ formData, setFormData, onSubm
                 <Checkbox
                   id="hasSchoolSSLC"
                   checked={formData.hasSchoolSSLC}
-                  onCheckedChange={(checked) => handleInputChange('hasSchoolSSLC', !!checked)}
+                  onCheckedChange={(value) => setFormData({ ...formData, hasSchoolSSLC: !!value })}
+                  // onCheckedChange={(checked) => handleInputChange('hasSchoolSSLC', !!checked)}
                 />
                 <Label htmlFor="hasSchoolSSLC" className="text-base font-medium">School/SSLC (10th Grade)</Label>
               </div>
@@ -643,10 +645,15 @@ const StudentForm: React.FC<StudentFormProps> = ({ formData, setFormData, onSubm
                 className="flex items-center space-x-2"
               >
                 <Upload className="h-4 w-4" />
-                <span>Upload Photo</span>
+                <span>{formData.photo ? 'Change Photo' : 'Upload Photo'}</span>
               </Button>
               {formData.photo && (
-                <img src={formData.photo} alt="Preview" className="w-16 h-16 rounded-lg object-cover" />
+                <img
+                  src={formData.photo}
+                  alt="Preview"
+                  className="w-16 h-16 rounded-lg object-cover border"
+                  style={{ background: '#f3f4f6' }}
+                />
               )}
             </div>
           </div>
