@@ -32,27 +32,27 @@ interface Student {
   mediumOfInstruction: string;
   
   // Academic Sections
-  hasSchoolSSLC: boolean;
+  hasSchoolSslc: boolean;
   sslcBoard: string;
   sslcYear: string;
   sslcPercentage: string;
   sslcSchool: string;
   
-  hasHSC: boolean;
+  hasHsc: boolean;
   hscBoard: string;
   hscYear: string;
   hscPercentage: string;
   hscCollege: string;
   hscStream: string;
   
-  hasUG: boolean;
+  hasUg: boolean;
   ugCourse: string;
   ugCollege: string;
   ugYear: string;
   ugPercentage: string;
   ugSpecialization: string;
   
-  hasPG: boolean;
+  hasPg: boolean;
   pgCourse: string;
   pgCollege: string;
   pgYear: string;
@@ -94,24 +94,24 @@ const Dashboard = () => {
     boardUniversity: '',
     academicRecords: '',
     mediumOfInstruction: '',
-    hasSchoolSSLC: false,
+    hasSchoolSslc: false,
     sslcBoard: '',
     sslcYear: '',
     sslcPercentage: '',
     sslcSchool: '',
-    hasHSC: false,
+    hasHsc: false,
     hscBoard: '',
     hscYear: '',
     hscPercentage: '',
     hscCollege: '',
     hscStream: '',
-    hasUG: false,
+    hasUg: false,
     ugCourse: '',
     ugCollege: '',
     ugYear: '',
     ugPercentage: '',
     ugSpecialization: '',
-    hasPG: false,
+    hasPg: false,
     pgCourse: '',
     pgCollege: '',
     pgYear: '',
@@ -288,18 +288,49 @@ const Dashboard = () => {
     // setFormData({ ...student });  // This fills the form with current values
     // setShowAddForm(true);
     const camelCaseStudent = toCamelCase(student);
+    console.log("handleEdit camel ", camelCaseStudent)
     setEditStudent(camelCaseStudent);
     setFormData(camelCaseStudent);  // ✅ prefill form including booleans
     setShowAddForm(true);
   };
 
-  const handleDelete = (id: number) => {
-    setStudents(prev => prev.filter(student => student.id !== id));
-    toast({
-      title: "Success",
-      description: "Student deleted successfully!",
-    });
+  const handleDelete = async (id: number) => {
+    const confirm = window.confirm("Are you sure you want to remove this student?");
+    if (!confirm) return;
+
+    const token = localStorage.getItem('access_token');
+    if (!token) {
+      toast({
+        title: "Unauthorized",
+        description: "Please log in again.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    try {
+      await axios.delete(`http://127.0.0.1:8000/api/students/${id}/`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+
+      setStudents(prev => prev.filter(student => student.id !== id));
+      toast({
+        title: "Deleted",
+        description: "Student deleted successfully!",
+      });
+    } catch (error) {
+      console.error("Delete error:", error);
+      toast({
+        title: "Error",
+        description: "Failed to delete student.",
+        variant: "destructive"
+      });
+    }
   };
+
+
 
   const handleCancel = () => {
     setShowAddForm(false);

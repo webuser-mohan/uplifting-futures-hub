@@ -56,7 +56,7 @@ const Index = () => {
           </h2>
           <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
             We provide educational support and job assistance to deserving students from underprivileged backgrounds, 
-            helping them build a brighter future through quality education and skill development.
+            helping them build a brighter future through quality education, skill development, and training for competitive exams
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button asChild size="lg" className="bg-blue-600 hover:bg-blue-700">

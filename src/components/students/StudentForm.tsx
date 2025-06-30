@@ -31,27 +31,27 @@ interface Student {
   mediumOfInstruction: string;
   
   // Academic Sections
-  hasSchoolSSLC: boolean;
+  hasSchoolSslc: boolean;
   sslcBoard: string;
   sslcYear: string;
   sslcPercentage: string;
   sslcSchool: string;
   
-  hasHSC: boolean;
+  hasHsc: boolean;
   hscBoard: string;
   hscYear: string;
   hscPercentage: string;
   hscCollege: string;
   hscStream: string;
   
-  hasUG: boolean;
+  hasUg: boolean;
   ugCourse: string;
   ugCollege: string;
   ugYear: string;
   ugPercentage: string;
   ugSpecialization: string;
   
-  hasPG: boolean;
+  hasPg: boolean;
   pgCourse: string;
   pgCollege: string;
   pgYear: string;
@@ -271,15 +271,15 @@ const StudentForm: React.FC<StudentFormProps> = ({ formData, setFormData, onSubm
             <div className="border rounded-lg p-4 mb-4">
               <div className="flex items-center space-x-2 mb-3">
                 <Checkbox
-                  id="hasSchoolSSLC"
-                  checked={formData.hasSchoolSSLC}
-                  onCheckedChange={(value) => setFormData({ ...formData, hasSchoolSSLC: !!value })}
-                  // onCheckedChange={(checked) => handleInputChange('hasSchoolSSLC', !!checked)}
+                  id="hasSchoolSslc"
+                  checked={formData.hasSchoolSslc}
+                  onCheckedChange={(value) => setFormData({ ...formData, hasSchoolSslc: !!value })}
+                  // onCheckedChange={(checked) => handleInputChange('hasSchoolSslc', !!checked)}
                 />
-                <Label htmlFor="hasSchoolSSLC" className="text-base font-medium">School/SSLC (10th Grade)</Label>
+                <Label htmlFor="hasSchoolSslc" className="text-base font-medium">School/SSLC (10th Grade)</Label>
               </div>
               
-              {formData.hasSchoolSSLC && (
+              {formData.hasSchoolSslc && (
                 <div className="grid md:grid-cols-2 gap-4">
                   <div>
                     <Label htmlFor="sslcSchool">School Name</Label>
@@ -333,14 +333,14 @@ const StudentForm: React.FC<StudentFormProps> = ({ formData, setFormData, onSubm
             <div className="border rounded-lg p-4 mb-4">
               <div className="flex items-center space-x-2 mb-3">
                 <Checkbox
-                  id="hasHSC"
-                  checked={formData.hasHSC}
-                  onCheckedChange={(checked) => handleInputChange('hasHSC', !!checked)}
+                  id="hasHsc"
+                  checked={formData.hasHsc}
+                  onCheckedChange={(checked) => handleInputChange('hasHsc', !!checked)}
                 />
-                <Label htmlFor="hasHSC" className="text-base font-medium">HSC/12th Grade</Label>
+                <Label htmlFor="hasHsc" className="text-base font-medium">HSC/12th Grade</Label>
               </div>
               
-              {formData.hasHSC && (
+              {formData.hasHsc && (
                 <div className="grid md:grid-cols-2 gap-4">
                   <div>
                     <Label htmlFor="hscCollege">College/School Name</Label>
@@ -407,14 +407,14 @@ const StudentForm: React.FC<StudentFormProps> = ({ formData, setFormData, onSubm
             <div className="border rounded-lg p-4 mb-4">
               <div className="flex items-center space-x-2 mb-3">
                 <Checkbox
-                  id="hasUG"
-                  checked={formData.hasUG}
-                  onCheckedChange={(checked) => handleInputChange('hasUG', !!checked)}
+                  id="hasUg"
+                  checked={formData.hasUg}
+                  onCheckedChange={(checked) => handleInputChange('hasUg', !!checked)}
                 />
-                <Label htmlFor="hasUG" className="text-base font-medium">Under Graduate (UG)</Label>
+                <Label htmlFor="hasUg" className="text-base font-medium">Under Graduate (UG)</Label>
               </div>
               
-              {formData.hasUG && (
+              {formData.hasUg && (
                 <div className="grid md:grid-cols-2 gap-4">
                   <div>
                     <Label htmlFor="ugCourse">Course Name</Label>
@@ -474,14 +474,14 @@ const StudentForm: React.FC<StudentFormProps> = ({ formData, setFormData, onSubm
             <div className="border rounded-lg p-4 mb-4">
               <div className="flex items-center space-x-2 mb-3">
                 <Checkbox
-                  id="hasPG"
-                  checked={formData.hasPG}
-                  onCheckedChange={(checked) => handleInputChange('hasPG', !!checked)}
+                  id="hasPg"
+                  checked={formData.hasPg}
+                  onCheckedChange={(checked) => handleInputChange('hasPg', !!checked)}
                 />
-                <Label htmlFor="hasPG" className="text-base font-medium">Post Graduate (PG)</Label>
+                <Label htmlFor="hasPg" className="text-base font-medium">Post Graduate (PG)</Label>
               </div>
               
-              {formData.hasPG && (
+              {formData.hasPg && (
                 <div className="grid md:grid-cols-2 gap-4">
                   <div>
                     <Label htmlFor="pgCourse">Course Name</Label>

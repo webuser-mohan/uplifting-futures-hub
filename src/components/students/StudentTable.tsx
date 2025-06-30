@@ -23,27 +23,27 @@ interface Student {
   mediumOfInstruction: string;
   
   // Academic Sections
-  hasSchoolSSLC: boolean;
+  hasSchoolSslc: boolean;
   sslcBoard: string;
   sslcYear: string;
   sslcPercentage: string;
   sslcSchool: string;
   
-  hasHSC: boolean;
+  hasHsc: boolean;
   hscBoard: string;
   hscYear: string;
   hscPercentage: string;
   hscCollege: string;
   hscStream: string;
   
-  hasUG: boolean;
+  hasUg: boolean;
   ugCourse: string;
   ugCollege: string;
   ugYear: string;
   ugPercentage: string;
   ugSpecialization: string;
   
-  hasPG: boolean;
+  hasPg: boolean;
   pgCourse: string;
   pgCollege: string;
   pgYear: string;
@@ -67,10 +67,10 @@ interface StudentTableProps {
 
 const StudentTable: React.FC<StudentTableProps> = ({ students, onEdit, onDelete }) => {
   const getHighestEducation = (student: Student) => {
-    if (student.hasPG) return `${student.pgCourse} - ${student.pgCollege}`;
-    if (student.hasUG) return `${student.ugCourse} - ${student.ugCollege}`;
-    if (student.hasHSC) return `HSC ${student.hscStream} - ${student.hscCollege}`;
-    if (student.hasSchoolSSLC) return `SSLC - ${student.sslcSchool}`;
+    if (student.hasPg) return `${student.pgCourse} - ${student.pgCollege}`;
+    if (student.hasUg) return `${student.ugCourse} - ${student.ugCollege}`;
+    if (student.hasHsc) return `HSC ${student.hscStream} - ${student.hscCollege}`;
+    if (student.hasSchoolSslc) return `SSLC - ${student.sslcSchool}`;
     return student.classGrade || 'Not specified';
   };
 
