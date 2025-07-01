@@ -1,0 +1,1 @@
+export const API_BASE_URL = "https://my-django-project-td7n.onrender.com";
