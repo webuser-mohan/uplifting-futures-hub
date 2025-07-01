@@ -252,7 +252,8 @@ const Dashboard = () => {
           }
         });
 
-        setStudents(prev => [...prev, response.data]);
+        const newStudent = toCamelCase(response.data);
+        setStudents(prev => [...prev, newStudent]);
 
         toast({
           title: "Added",

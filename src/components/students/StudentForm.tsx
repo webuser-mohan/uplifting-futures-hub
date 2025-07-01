@@ -109,6 +109,70 @@ const StudentForm: React.FC<StudentFormProps> = ({ formData, setFormData, onSubm
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    // === Validate Required Personal Fields ===
+    const requiredFields = [
+      { name: 'fullName', label: 'Full Name' },
+      { name: 'dateOfBirth', label: 'Date of Birth' },
+      { name: 'gender', label: 'Gender' },
+      { name: 'parentGuardianName', label: 'Parent/Guardian Name' },
+      { name: 'parentContact', label: 'Parent Contact' },
+      { name: 'address', label: 'Address' },
+      { name: 'aadharNumber', label: 'Aadhar Number' },
+      { name: 'studentContact', label: 'Student Contact Number' },
+      { name: 'email', label: 'Email Address' },
+      { name: 'targetExams', label: 'Target Exams' },
+      { name: 'preparationLevel', label: 'Current Preparation Level' },
+      { name: 'mediumOfInstruction', label: 'Medium of Instruction' },
+      { name: 'startDate', label: 'Training Start Date' },
+      { name: 'endDate', label: 'Training End Date' },
+    ];
+
+
+    const missing = requiredFields.filter(field => !formData[field.name as keyof typeof formData]);
+
+    if (missing.length > 0) {
+      alert(`Please fill the following required fields:\n${missing.map(m => `• ${m.label}`).join('\n')}`);
+      return;
+    }
+
+    // === Optional: Validate Conditional Sections ===
+    if (formData.hasSchoolSslc) {
+      const sslcRequired = ['sslcSchool', 'sslcBoard', 'sslcYear', 'sslcPercentage'];
+      const missingSSLC = sslcRequired.filter(field => !formData[field as keyof typeof formData]);
+      if (missingSSLC.length > 0) {
+        alert('Please complete all SSLC (10th Grade) fields.');
+        return;
+      }
+    }
+
+    if (formData.hasHsc) {
+      const hscRequired = ['hscCollege', 'hscBoard', 'hscYear', 'hscPercentage', 'hscStream'];
+      const missingHSC = hscRequired.filter(field => !formData[field as keyof typeof formData]);
+      if (missingHSC.length > 0) {
+        alert('Please complete all HSC (12th Grade) fields.');
+        return;
+      }
+    }
+
+    if (formData.hasUg) {
+      const ugRequired = ['ugCourse', 'ugCollege', 'ugYear', 'ugPercentage'];
+      const missingUG = ugRequired.filter(field => !formData[field as keyof typeof formData]);
+      if (missingUG.length > 0) {
+        alert('Please complete all UG (Undergraduate) fields.');
+        return;
+      }
+    }
+
+    if (formData.hasPg) {
+      const pgRequired = ['pgCourse', 'pgCollege', 'pgYear', 'pgPercentage'];
+      const missingPG = pgRequired.filter(field => !formData[field as keyof typeof formData]);
+      if (missingPG.length > 0) {
+        alert('Please complete all PG (Postgraduate) fields.');
+        return;
+      }
+    }
+
     onSubmit(formData);
   };
 
@@ -564,6 +628,7 @@ const StudentForm: React.FC<StudentFormProps> = ({ formData, setFormData, onSubm
                   placeholder="e.g., Railways, Forest, Group1, Group2"
                   value={formData.targetExams}
                   onChange={(e) => handleInputChange('targetExams', e.target.value)}
+                  required
                 />
               </div>
               <div>
@@ -574,6 +639,7 @@ const StudentForm: React.FC<StudentFormProps> = ({ formData, setFormData, onSubm
                   placeholder="e.g., Physics, Chemistry, Mathematics"
                   value={formData.preferredSubjects}
                   onChange={(e) => handleInputChange('preferredSubjects', e.target.value)}
+                  required
                 />
               </div>
             </div>
